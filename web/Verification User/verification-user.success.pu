@@ -1,0 +1,20 @@
+@startuml User Verification Success
+actor "Admin/SuperAdmin"  as User
+boundary "Login View" as LoginView
+control LoginController 
+entity Users as UserModel
+boundary "Dashboard View" as DashView
+
+autonumber
+autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+User->LoginView: input(email,password)
+LoginView->LoginController : input(email,password)
+deactivate User
+LoginController->UserModel :attemptLogin(email,password)
+return user
+LoginController -> DashView : view(user)
+
+@enduml

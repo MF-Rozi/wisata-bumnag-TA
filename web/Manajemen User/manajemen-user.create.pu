@@ -1,0 +1,36 @@
+@startuml User Verification Success
+mainframe **sd** Manajemen User
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen User View" as UsersView
+control UserController 
+entity Users as UserModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: users()
+deactivate User
+HomeView->UserController: index()
+deactivate HomeView
+activate UserController
+activate UsersView
+UserController-->UsersView: view(users.index)
+activate User
+User->UsersView: create()
+UsersView->UserController : create()
+UserController --> UsersView: view(users.create)
+User->UsersView: input(datauser)
+UsersView->UserController: create(datauser)
+activate UserModel
+UserController->UserModel: insertUser(user)
+UserModel-->UserController: success
+UserController-->UsersView: success
+deactivate UserModel
+deactivate UsersView
+deactivate User
+
+@enduml
