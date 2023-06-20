@@ -1,0 +1,36 @@
+@startuml Destinasi Verification Success
+mainframe **sd** Manajemen Destinasi.Create
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Destinasi View" as DestinasiView
+control DestinasiController 
+entity destinasi as DestinasiModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: destinasi()
+deactivate User
+HomeView->DestinasiController: index()
+deactivate HomeView
+activate DestinasiController
+activate DestinasiView
+DestinasiController-->DestinasiView: view(destinasi.index)
+activate User
+User->DestinasiView: create()
+DestinasiView->DestinasiController : create()
+DestinasiController --> DestinasiView: view(destinasi.create)
+User->DestinasiView: input(datadestinasi)
+DestinasiView->DestinasiController: create(datadestinasi)
+activate DestinasiModel
+DestinasiController->DestinasiModel: insertDestinasi(destinasi)
+DestinasiModel-->DestinasiController: success
+DestinasiController-->DestinasiView: success
+deactivate DestinasiModel
+deactivate DestinasiView
+deactivate User
+
+@enduml
