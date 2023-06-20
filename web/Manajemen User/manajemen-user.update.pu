@@ -1,5 +1,5 @@
 @startuml User Verification Success
-mainframe **sd** Manajemen User.Create
+mainframe **sd** Manajemen User.update
 actor "Admin/SuperAdmin"  as User
 boundary "Home View" as HomeView
 boundary "Manajemen User View" as UsersView
@@ -20,13 +20,13 @@ activate UserController
 activate UsersView
 UserController-->UsersView: view(users.index)
 activate User
-User->UsersView: create()
-UsersView->UserController : create()
-UserController --> UsersView: view(users.create)
+User->UsersView: update()
+UsersView->UserController : update()
+UserController --> UsersView: view(users.update)
 User->UsersView: input(datauser)
-UsersView->UserController: create(datauser)
+UsersView->UserController: update(datauser)
 activate UserModel
-UserController->UserModel: insertUser(user)
+UserController->UserModel: updateUser(user)
 UserModel-->UserController: success
 UserController-->UsersView: success
 deactivate UserModel
