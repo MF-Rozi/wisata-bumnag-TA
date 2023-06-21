@@ -1,5 +1,5 @@
-@startuml User Verification Success
-mainframe **sd** Manajemen User.delete
+@startuml User Manajemen.Delete
+mainframe **sd** Manajemen User.Delete
 actor "Admin/SuperAdmin"  as User
 boundary "Home View" as HomeView
 boundary "Manajemen User View" as UsersView

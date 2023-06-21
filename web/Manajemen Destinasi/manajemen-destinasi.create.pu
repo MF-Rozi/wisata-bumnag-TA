@@ -1,10 +1,10 @@
-@startuml Destinasi Verification Success
+@startuml Destinasi Manajemen.Create
 mainframe **sd** Manajemen Destinasi.Create
 actor "Admin/SuperAdmin"  as User
 boundary "Home View" as HomeView
 boundary "Manajemen Destinasi View" as DestinasiView
 control DestinasiController 
-entity destinasi as DestinasiModel
+entity Destinasi as DestinasiModel
 
 autonumber
 ' autoactivate on
@@ -18,11 +18,11 @@ HomeView->DestinasiController: index()
 deactivate HomeView
 activate DestinasiController
 activate DestinasiView
-DestinasiController-->DestinasiView: view(destinasi.index)
+DestinasiController-->DestinasiView: view(Destinasi.index)
 activate User
 User->DestinasiView: create()
 DestinasiView->DestinasiController : create()
-DestinasiController --> DestinasiView: view(destinasi.create)
+DestinasiController --> DestinasiView: view(Destinasi.create)
 User->DestinasiView: input(datadestinasi)
 DestinasiView->DestinasiController: create(datadestinasi)
 activate DestinasiModel

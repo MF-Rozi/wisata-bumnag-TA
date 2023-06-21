@@ -1,4 +1,4 @@
-@startuml User Verification Success
+@startuml User Manajemen.Create
 mainframe **sd** Manajemen User.Create
 actor "Admin/SuperAdmin"  as User
 boundary "Home View" as HomeView

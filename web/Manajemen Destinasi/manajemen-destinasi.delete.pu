@@ -1,10 +1,10 @@
-@startuml Destinasi Verification Success
+@startuml Destinasi Manajemen.Delete
 mainframe **sd** Manajemen Destinasi.delete
 actor "Admin/SuperAdmin"  as User
 boundary "Home View" as HomeView
 boundary "Manajemen User View" as DestinasiView
 control DestinasiController 
-entity Users as UserModel
+entity Destinasi as DestinasiModel
 
 autonumber
 ' autoactivate on
@@ -22,8 +22,8 @@ DestinasiController->DestinasiView: view(Destinasi.index)
 activate User
 User->DestinasiView: delete(destinasi)
 DestinasiView->DestinasiController: delete(destinasi)
-DestinasiController->UserModel: deleteUser(destinasi)
-UserModel-->DestinasiController: success
+DestinasiController->DestinasiModel: deleteUser(destinasi)
+DestinasiModel-->DestinasiController: success
 DestinasiController-->DestinasiView: success
 deactivate DestinasiController
 deactivate DestinasiView

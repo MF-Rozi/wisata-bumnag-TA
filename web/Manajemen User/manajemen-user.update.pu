@@ -1,5 +1,5 @@
-@startuml User Verification Success
-mainframe **sd** Manajemen User.update
+@startuml User Manajemen.Update
+mainframe **sd** Manajemen User.Update
 actor "Admin/SuperAdmin"  as User
 boundary "Home View" as HomeView
 boundary "Manajemen User View" as UsersView
