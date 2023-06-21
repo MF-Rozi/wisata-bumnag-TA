@@ -1,0 +1,34 @@
+@startuml Recommendation Manajemen
+mainframe **sd** Manajemen Recommendation
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Recommendation View" as RecommendationView
+control RecommendationController 
+entity Recommendation as RecommendationModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+User->HomeView: recommendation()
+activate HomeView
+HomeView->RecommendationController: index()
+deactivate User
+activate RecommendationController
+activate RecommendationView
+RecommendationController->RecommendationView: view(Recommendation.index)
+deactivate HomeView
+activate User
+User->RecommendationView: input(datarecommendation)
+RecommendationView->RecommendationController: storeRecommendation(datarecommendation)
+activate RecommendationModel
+RecommendationController->RecommendationModel: store(recommendation)
+RecommendationModel-->RecommendationController: success
+deactivate RecommendationModel
+RecommendationController-->RecommendationView: success
+deactivate RecommendationController
+deactivate RecommendationView
+deactivate User
+
+@enduml
