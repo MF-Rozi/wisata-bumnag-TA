@@ -1,0 +1,36 @@
+@startuml Ticket Manajemen.Create
+mainframe **sd** Manajemen Ticket.Create
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Ticket View" as TicketView
+control TicketController 
+entity Ticket as TicketModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: ticket()
+deactivate User
+HomeView->TicketController: index()
+deactivate HomeView
+activate TicketController
+activate TicketView
+TicketController-->TicketView: view(Ticket.index)
+activate User
+User->TicketView: create()
+TicketView->TicketController : create()
+TicketController --> TicketView: view(Ticket.create)
+User->TicketView: input(dataticket)
+TicketView->TicketController: create(dataticket)
+activate TicketModel
+TicketController->TicketModel: insertTicket(ticket)
+TicketModel-->TicketController: success
+TicketController-->TicketView: success
+deactivate TicketModel
+deactivate TicketView
+deactivate User
+
+@enduml

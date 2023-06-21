@@ -1,0 +1,36 @@
+@startuml Ticket Manajemen.Update
+mainframe **sd** Manajemen Ticket.Update
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Ticket View" as TicketView
+control TicketController 
+entity Ticket as TicketModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: ticket()
+deactivate User
+HomeView->TicketController: index()
+deactivate HomeView
+activate TicketController
+activate TicketView
+TicketController-->TicketView: view(Ticket.index)
+activate User
+User->TicketView: update()
+TicketView->TicketController : update()
+TicketController --> TicketView: view(Ticket.update)
+User->TicketView: input(dataticket)
+TicketView->TicketController: update(dataticket)
+activate TicketModel
+TicketController->TicketModel: updateTicket(ticket)
+TicketModel-->TicketController: success
+TicketController-->TicketView: success
+deactivate TicketModel
+deactivate TicketView
+deactivate User
+
+@enduml
