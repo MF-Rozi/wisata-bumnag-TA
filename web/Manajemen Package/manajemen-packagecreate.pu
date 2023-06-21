@@ -1,0 +1,36 @@
+@startuml Package Manajemen.Create
+mainframe **sd** Manajemen Package.Create
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Package View" as PackageView
+control PackageController 
+entity Package as PackageModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: package()
+deactivate User
+HomeView->PackageController: index()
+deactivate HomeView
+activate PackageController
+activate PackageView
+PackageController-->PackageView: view(Package.index)
+activate User
+User->PackageView: create()
+PackageView->PackageController : create()
+PackageController --> PackageView: view(Package.create)
+User->PackageView: input(datapackage)
+PackageView->PackageController: create(datapackage)
+activate PackageModel
+PackageController->PackageModel: insertPackage(package)
+PackageModel-->PackageController: success
+PackageController-->PackageView: success
+deactivate PackageModel
+deactivate PackageView
+deactivate User
+
+@enduml
