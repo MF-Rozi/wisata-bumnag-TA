@@ -1,0 +1,36 @@
+@startuml AdBanner Manajemen.Create
+mainframe **sd** Manajemen AdBanner.Create
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen AdBanner View" as AdBannerView
+control AdBannerController 
+entity AdBanner as AdBannerModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: adbanner()
+deactivate User
+HomeView->AdBannerController: index()
+deactivate HomeView
+activate AdBannerController
+activate AdBannerView
+AdBannerController-->AdBannerView: view(AdBanner.index)
+activate User
+User->AdBannerView: create()
+AdBannerView->AdBannerController : create()
+AdBannerController --> AdBannerView: view(AdBanner.create)
+User->AdBannerView: input(dataadbanner)
+AdBannerView->AdBannerController: create(dataadbanner)
+activate AdBannerModel
+AdBannerController->AdBannerModel: insertAdBanner(adbanner)
+AdBannerModel-->AdBannerController: success
+AdBannerController-->AdBannerView: success
+deactivate AdBannerModel
+deactivate AdBannerView
+deactivate User
+
+@enduml
