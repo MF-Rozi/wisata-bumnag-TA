@@ -1,0 +1,36 @@
+@startuml Event Manajemen.Create
+mainframe **sd** Manajemen Event.Create
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Event View" as EventView
+control EventController 
+entity Event as EventModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: event()
+deactivate User
+HomeView->EventController: index()
+deactivate HomeView
+activate EventController
+activate EventView
+EventController-->EventView: view(Event.index)
+activate User
+User->EventView: create()
+EventView->EventController : create()
+EventController --> EventView: view(Event.create)
+User->EventView: input(dataevent)
+EventView->EventController: create(dataevent)
+activate EventModel
+EventController->EventModel: insertEvent(event)
+EventModel-->EventController: success
+EventController-->EventView: success
+deactivate EventModel
+deactivate EventView
+deactivate User
+
+@enduml

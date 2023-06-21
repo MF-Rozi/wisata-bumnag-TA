@@ -20,13 +20,13 @@ activate DestinasiController
 activate DestinasiView
 DestinasiController-->DestinasiView: view(Destinasi.index)
 activate User
-User->DestinasiView: create()
-DestinasiView->DestinasiController : create()
+User->DestinasiView: update()
+DestinasiView->DestinasiController : update()
 DestinasiController --> DestinasiView: view(Destinasi.update)
 User->DestinasiView: input(datadestinasi)
-DestinasiView->DestinasiController: create(datadestinasi)
+DestinasiView->DestinasiController: update(datadestinasi)
 activate DestinasiModel
-DestinasiController->DestinasiModel: insertDestinasi(destinasi)
+DestinasiController->DestinasiModel: updateDestinasi(destinasi)
 DestinasiModel-->DestinasiController: success
 DestinasiController-->DestinasiView: success
 deactivate DestinasiModel
