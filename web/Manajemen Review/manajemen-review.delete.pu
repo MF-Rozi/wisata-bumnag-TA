@@ -1,0 +1,34 @@
+@startuml Review Manajemen.Delete
+mainframe **sd** Manajemen Review.Delete
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen User View" as ReviewView
+control ReviewController 
+entity Review as ReviewModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: review()
+deactivate User
+HomeView->ReviewController: index()
+deactivate HomeView
+activate ReviewController
+activate ReviewView
+ReviewController->ReviewView: view(Review.index)
+activate User
+User->ReviewView: delete(review)
+ReviewView->ReviewController: delete(review)
+ReviewController->ReviewModel: deleteUser(review)
+ReviewModel-->ReviewController: success
+ReviewController-->ReviewView: success
+deactivate ReviewController
+deactivate ReviewView
+deactivate User
+
+
+
+@enduml

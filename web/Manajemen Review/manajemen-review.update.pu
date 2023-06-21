@@ -1,0 +1,36 @@
+@startuml Review Manajemen.Create
+mainframe **sd** Manajemen Review.Create
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Review View" as ReviewView
+control ReviewController 
+entity Review as ReviewModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: review()
+deactivate User
+HomeView->ReviewController: index()
+deactivate HomeView
+activate ReviewController
+activate ReviewView
+ReviewController-->ReviewView: view(Review.index)
+activate User
+User->ReviewView: update()
+ReviewView->ReviewController : update()
+ReviewController --> ReviewView: view(Review.update)
+User->ReviewView: input(datareview)
+ReviewView->ReviewController: update(datareview)
+activate ReviewModel
+ReviewController->ReviewModel: insertReview(review)
+ReviewModel-->ReviewController: success
+ReviewController-->ReviewView: success
+deactivate ReviewModel
+deactivate ReviewView
+deactivate User
+
+@enduml
