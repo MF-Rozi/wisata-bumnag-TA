@@ -1,0 +1,36 @@
+@startuml Souvenir Manajemen.Create
+mainframe **sd** Manajemen Souvenir.Create
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Souvenir View" as SouvenirView
+control SouvenirController 
+entity Souvenir as SouvenirModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: souvenir()
+deactivate User
+HomeView->SouvenirController: index()
+deactivate HomeView
+activate SouvenirController
+activate SouvenirView
+SouvenirController-->SouvenirView: view(Souvenir.index)
+activate User
+User->SouvenirView: create()
+SouvenirView->SouvenirController : create()
+SouvenirController --> SouvenirView: view(Souvenir.create)
+User->SouvenirView: input(datasouvenir)
+SouvenirView->SouvenirController: create(datasouvenir)
+activate SouvenirModel
+SouvenirController->SouvenirModel: insertSouvenir(souvenir)
+SouvenirModel-->SouvenirController: success
+SouvenirController-->SouvenirView: success
+deactivate SouvenirModel
+deactivate SouvenirView
+deactivate User
+
+@enduml
