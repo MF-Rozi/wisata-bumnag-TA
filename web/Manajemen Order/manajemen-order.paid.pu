@@ -1,0 +1,48 @@
+@startuml Order Manajemen.Paid
+mainframe **sd** Manajemen Order.Paid
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Order View" as OrderView
+control OrderController 
+entity Payment as PaymentModel
+entity "Order History" as OrderHistoryModel
+entity Order as OrderModel
+control NotificationService as NotifService
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: order()
+deactivate User
+activate OrderController
+HomeView->OrderController: index()
+deactivate HomeView
+activate OrderView
+OrderController->OrderView: view(Order.index)
+activate User
+User->OrderView: paid(order)
+OrderView->OrderController: paid(order)
+activate OrderModel
+OrderController->OrderModel: setPaid(order)
+OrderModel-->OrderController: success
+deactivate OrderModel
+activate PaymentModel
+OrderController->PaymentModel: createPayment(order)
+PaymentModel-->OrderController: success
+deactivate PaymentModel
+activate OrderHistoryModel
+OrderController->OrderHistoryModel: createPaymentHistory(order)
+OrderHistoryModel-->OrderController: success
+deactivate OrderHistoryModel
+activate NotifService
+OrderController->NotifService: notify(OrderPaided)
+NotifService-->OrderController: notification sended
+deactivate NotifService
+OrderController-->OrderView: Order Paided
+deactivate User
+deactivate OrderController
+
+@enduml

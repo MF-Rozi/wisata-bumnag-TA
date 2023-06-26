@@ -1,0 +1,44 @@
+@startuml Order Manajemen.Cancelled
+mainframe **sd** Manajemen Order.Cancelled
+actor "Admin/SuperAdmin"  as User
+boundary "Home View" as HomeView
+boundary "Manajemen Order View" as OrderView
+control OrderController 
+entity "Order History" as OrderHistoryModel
+entity Order as OrderModel
+control NotificationService as NotifService
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: order()
+deactivate User
+activate OrderController
+HomeView->OrderController: index()
+deactivate HomeView
+activate OrderView
+OrderController->OrderView: view(Order.index)
+activate User
+User->OrderView: cancel(order)
+OrderView->OrderController: cancel(order)
+activate OrderModel
+OrderController->OrderModel: setCancel(order)
+OrderModel-->OrderController: success
+deactivate OrderModel
+
+activate OrderHistoryModel
+OrderController->OrderHistoryModel: createPaymentHistory(order)
+OrderHistoryModel-->OrderController: success
+deactivate OrderHistoryModel
+activate NotifService
+OrderController->NotifService: notify(OrderCancelled)
+NotifService-->OrderController: notification sended
+deactivate NotifService
+OrderController-->OrderView: order Cancelled
+deactivate User
+deactivate OrderController
+
+@enduml
