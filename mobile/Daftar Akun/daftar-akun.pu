@@ -1,0 +1,32 @@
+@startuml Daftar Akun
+mainframe **sd** Daftar Akun
+actor User
+boundary "Home View" as HomeView
+control AuthenticationController 
+boundary "Login View" as LoginView
+boundary "Register View" as RegisterView
+entity Users as UserModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+activate User
+activate HomeView
+User->HomeView : Profil()
+HomeView->AuthenticationController : checkAuthenticationStatus()
+activate AuthenticationController
+activate LoginView
+AuthenticationController->LoginView : build()
+deactivate HomeView
+User->LoginView: register()
+deactivate AuthenticationController
+activate RegisterView
+LoginView->RegisterView: build()
+activate UserModel
+User->RegisterView : register(name,email,password,confirmPass)
+RegisterView ->UserModel : register(data)
+UserModel-->RegisterView : success
+RegisterView->LoginView: buildWithSuccess()
+
+deactivate LoginView
+@enduml
