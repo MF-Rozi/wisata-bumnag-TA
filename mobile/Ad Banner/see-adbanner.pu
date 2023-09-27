@@ -1,0 +1,20 @@
+@startuml Lihat Ad Banner
+mainframe **sd** Melihat Ad Banner
+actor "User" as User
+control HomeController 
+boundary "Home View" as HomeView
+entity AdBannner as AdBannerModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+activate User
+User->HomeController : boot()
+activate HomeController
+activate HomeView
+HomeController->HomeView: build()
+activate AdBannerModel
+HomeController->AdBannerModel : fetch()
+AdBannerModel->HomeView : return(adbanner)
+
+@enduml
