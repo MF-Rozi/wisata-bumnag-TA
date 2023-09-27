@@ -1,0 +1,12 @@
+@startuml name uml
+mainframe **sd** some Frame Name
+actor "Some Actor" as User
+control SomeController 
+boundary "Some View" as SomeView
+entity Entity as EntityModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+@enduml
