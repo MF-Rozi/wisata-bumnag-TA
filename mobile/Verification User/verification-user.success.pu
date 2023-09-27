@@ -1,0 +1,28 @@
+@startuml User Verification Success
+actor "User / Ticketer" as User
+boundary "Home View" as HomeView
+control AuthenticationController 
+boundary "Login View" as LoginView
+entity Users as UserModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+activate User
+User->HomeView : Profil()
+activate HomeView
+deactivate User
+HomeView->AuthenticationController : checkAuthenticationStatus()
+activate AuthenticationController
+deactivate HomeView
+AuthenticationController->LoginView : build()
+activate LoginView
+deactivate AuthenticationController
+activate User
+User->LoginView : login(email,password)
+LoginView->UserModel: login(email,password)
+UserModel-->LoginView: success
+deactivate User
+
+
+@enduml

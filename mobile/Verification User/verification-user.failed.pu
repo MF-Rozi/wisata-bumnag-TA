@@ -1,0 +1,33 @@
+@startuml User Verification notSuccess
+actor "Admin/SuperAdmin"  as User
+boundary "Login View" as HomeView
+control AuthenticationController 
+boundary "Login View" as LoginView
+entity Users as UserModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+activate User
+User->HomeView : Profil()
+activate HomeView
+deactivate User
+HomeView->AuthenticationController : checkAuthenticationStatus()
+activate AuthenticationController
+deactivate HomeView
+AuthenticationController->LoginView : build()
+activate LoginView
+deactivate AuthenticationController
+activate User
+User->LoginView : login(email,password)
+activate UserModel
+LoginView->UserModel: login(email,password)
+UserModel-->LoginView: Invalid Email or Password
+
+LoginView->UserModel: login(email,password)
+UserModel-->LoginView: Success
+
+deactivate User
+deactivate UserModel
+
+@enduml
