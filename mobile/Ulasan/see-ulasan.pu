@@ -18,7 +18,7 @@ HomeView->ReviewController: view(review)
 ReviewController->ReviewModel: getAllReview()
 activate ReviewModel
 deactivate HomeView
-ReviewModel-->ReviewController: return(review)
+ReviewModel-->ReviewController: return(reviews)
 activate ReviewView
 ReviewController->ReviewView: build(reviews)
 

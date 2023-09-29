@@ -1,0 +1,27 @@
+@startuml Melihat Destinasi
+mainframe **sd** Melihat Destinasi
+actor "User" as User
+boundary "Home View" as HomeView
+control DestinationController 
+boundary "Destination View" as DestinationView
+entity Destination as DestinationModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: destination()
+activate DestinationController
+HomeView->DestinationController: view(destination)
+DestinationController->DestinationModel: getAllDestination()
+activate DestinationModel
+deactivate HomeView
+DestinationModel-->DestinationController: return(destination)
+activate DestinationView
+DestinationController->DestinationView: build(destinations)
+
+
+
+@enduml
