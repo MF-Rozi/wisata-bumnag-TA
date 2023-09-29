@@ -1,0 +1,27 @@
+@startuml Melihat Ulasan
+mainframe **sd** Melihat Ulasan
+actor "User" as User
+boundary "Home View" as HomeView
+control ReviewController 
+boundary "Review View" as ReviewView
+entity Review as ReviewModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: review()
+activate ReviewController
+HomeView->ReviewController: view(review)
+ReviewController->ReviewModel: getAllReview()
+activate ReviewModel
+deactivate HomeView
+ReviewModel-->ReviewController: return(review)
+activate ReviewView
+ReviewController->ReviewView: build(reviews)
+
+
+
+@enduml
