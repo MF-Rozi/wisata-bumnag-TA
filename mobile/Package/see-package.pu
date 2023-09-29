@@ -1,0 +1,27 @@
+@startuml Melihat Paket Wisata
+mainframe **sd** Melihat Paket Wisata
+actor "User" as User
+boundary "Home View" as HomeView
+control PackageController 
+boundary "Package View" as PackageView
+entity Package as PackageModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: destination()
+activate PackageController
+HomeView->PackageController: view(destination)
+PackageController->PackageModel: getAllPackage()
+activate PackageModel
+deactivate HomeView
+PackageModel-->PackageController: return(destination)
+activate PackageView
+PackageController->PackageView: build(destinations)
+
+
+
+@enduml
