@@ -1,0 +1,27 @@
+@startuml Melihat Suvenir
+mainframe **sd** Melihat Suvenir
+actor "User" as User
+boundary "Home View" as HomeView
+control SouvenirController 
+boundary "Souvenir View" as SouvenirView
+entity Souvenir as SouvenirModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: souvenir()
+activate SouvenirController
+HomeView->SouvenirController: view(souvenir)
+SouvenirController->SouvenirModel: getAllSouvenir()
+activate SouvenirModel
+deactivate HomeView
+SouvenirModel-->SouvenirController: return(souvenir)
+activate SouvenirView
+SouvenirController->SouvenirView: build(souvenirs)
+
+
+
+@enduml
