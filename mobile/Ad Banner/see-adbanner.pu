@@ -3,7 +3,7 @@ mainframe **sd** Melihat Ad Banner
 actor "User" as User
 control HomeController 
 boundary "Home View" as HomeView
-entity AdBannner as AdBannerModel
+entity AdBanner as AdBannerModel
 
 autonumber
 ' autoactivate on
