@@ -1,0 +1,27 @@
+@startuml Melihat Event
+mainframe **sd** Melihat Event
+actor "User" as User
+boundary "Home View" as HomeView
+control EventController 
+boundary "Event View" as EventView
+entity Event as EventModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: event()
+activate EventController
+HomeView->EventController: view(event)
+EventController->EventModel: getAllEvent()
+activate EventModel
+deactivate HomeView
+EventModel-->EventController: return(event)
+activate EventView
+EventController->EventView: build(events)
+
+
+
+@enduml
