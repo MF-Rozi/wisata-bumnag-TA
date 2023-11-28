@@ -1,0 +1,37 @@
+@startuml Memberikan Ulasan
+mainframe **sd** Memberikan Ulasan
+actor User
+boundary "Home View" as HomeView
+control "Review Controller" as ReviewController 
+entity Review as ReviewModel
+boundary "Review View" as ReviewView
+
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+User->HomeView: review()
+HomeView->ReviewController: viewReview()
+ReviewController->ReviewModel: getAll()
+ReviewModel-->ReviewController: return(reviews)
+ReviewController->ReviewView: build(reviews)
+User->ReviewView: reviews(user)
+ReviewView->ReviewController: getReview(user)
+ReviewController->ReviewModel: getUserReview(user)
+ReviewModel-->ReviewController: return(reviews)
+ReviewController->ReviewView: build(userView(reviews))
+User->ReviewView: newReview(order)
+/'
+1.	Use case dimulai dengan aktor menekan tombol ulasan.
+2.	Halaman daftar ulasan tampil.
+3.	Aktor memilih menu ulasan saya.
+4.	Halaman ulasan saya tampil.
+5.	Aktor menekan tombol beri ulasan. >>sampai disini baru <<<<
+6.	Aktor mengisi form ulasan.
+7.	Aktor menekan tombol kirim ulasan.
+8.	Ulasan berhasil diberikan.
+'/
+
+
+@enduml
