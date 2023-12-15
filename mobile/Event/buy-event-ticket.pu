@@ -1,0 +1,81 @@
+@startuml Membeli Tiket Event
+mainframe **sd** Membeli Tiket Event
+actor "User" as User
+boundary "Home View" as HomeView
+control EventController 
+entity Event as EventModel
+boundary "Event View " as EventView
+entity Ticket as TicketModel
+boundary "Event Detail View" as  EventDetailView
+control OrderController
+entity Ticket as TicketModel
+boundary "Order View " as OrderView
+boundary "Payment View" as PaymentView
+control PaymentController
+entity Payment as PaymentModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: event()
+activate EventController
+HomeView->EventController: view(event)
+EventController->EventModel: getAllEvent()
+activate EventModel
+deactivate HomeView
+EventModel-->EventController: return(event)
+deactivate EventModel
+activate EventView
+EventController->EventView: build(events)
+deactivate EventController
+User->EventView: detail(event)
+activate EventController
+EventView->EventController: detail(event)
+deactivate EventView
+activate EventDetailView
+EventController->EventDetailView: eventDetail(event)
+deactivate EventController
+User->EventDetailView: order(event)
+activate EventController
+EventDetailView->EventController: order(event)
+deactivate EventDetailView
+activate OrderController
+EventController-> OrderController: getTickets(event)
+deactivate EventController
+activate TicketModel
+OrderController-> TicketModel: getTickets(event)
+TicketModel-->OrderController: return(tickets)
+deactivate TicketModel
+activate OrderView
+OrderController->OrderView: view(event,tickets)
+deactivate OrderController
+User->OrderView: placeOrder(order)
+activate OrderController
+OrderView->OrderController: save(order)
+activate PaymentController
+deactivate OrderController
+OrderView->PaymentController: create(order)
+deactivate OrderView
+activate PaymentModel
+PaymentController->PaymentModel: createPayment(order)
+PaymentModel--> PaymentController: return(payment)
+activate PaymentView
+deactivate PaymentModel
+
+PaymentController->PaymentView: build(payment)
+User->PaymentView: paid(payment)
+PaymentView->PaymentController: paymentPaid(payment)
+activate PaymentModel
+PaymentController->PaymentModel: update(payment)
+PaymentModel-> PaymentController: return(payment)
+deactivate PaymentView
+activate OrderController
+PaymentController-->OrderController: update(order)
+deactivate OrderController
+PaymentController-->User: notifyPaymentSuccess()
+
+
+@enduml
