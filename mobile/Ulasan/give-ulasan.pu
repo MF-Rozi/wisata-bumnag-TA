@@ -2,26 +2,51 @@
 mainframe **sd** Memberikan Ulasan
 actor User
 boundary "Home View" as HomeView
+boundary "Review View" as ReviewView
 control "Review Controller" as ReviewController 
 entity Review as ReviewModel
-boundary "Review View" as ReviewView
-
 
 autonumber
 ' autoactivate on
 skinparam SequenceMessageAlignment center
 
+activate User
+activate HomeView
+
 User->HomeView: review()
+
+activate ReviewController
 HomeView->ReviewController: viewReview()
+
+
+activate ReviewModel
+
 ReviewController->ReviewModel: getAll()
+
+deactivate HomeView
+
 ReviewModel-->ReviewController: return(reviews)
+
+deactivate ReviewModel
+activate ReviewView
+
 ReviewController->ReviewView: build(reviews)
 User->ReviewView: reviews(user)
 ReviewView->ReviewController: getReview(user)
+activate ReviewModel
 ReviewController->ReviewModel: getUserReview(user)
 ReviewModel-->ReviewController: return(reviews)
 ReviewController->ReviewView: build(userView(reviews))
+deactivate ReviewModel
 User->ReviewView: newReview(order)
+ReviewView->ReviewController: createReview(order)
+ReviewController->ReviewView: build(reviewForm(order))
+User->ReviewView: submitReview(review)
+ReviewView->ReviewController: createNewReview(review)
+activate ReviewModel
+ReviewController->ReviewModel: createReview(review)
+ReviewModel-->ReviewController: return(review)
+ReviewController-->ReviewView: return(success)
 /'
 1.	Use case dimulai dengan aktor menekan tombol ulasan.
 2.	Halaman daftar ulasan tampil.
