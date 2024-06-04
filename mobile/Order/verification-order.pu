@@ -1,0 +1,27 @@
+@startuml Melihat Order
+mainframe **sd** Melihat Order
+actor "User" as User
+boundary "Home View" as HomeView
+control OrderController 
+boundary "Order View" as OrderView
+entity Order as OrderModel
+
+autonumber
+' autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+activate HomeView
+User->HomeView: orders()
+HomeView->OrderController: view(orders)
+activate OrderController
+OrderController->OrderModel: getAllOrder(user)
+deactivate  HomeView
+
+activate OrderModel
+OrderModel-->OrderController: return(orders)
+activate OrderView
+OrderController->OrderView: build(orders)
+deactivate OrderModel
+
+@enduml
