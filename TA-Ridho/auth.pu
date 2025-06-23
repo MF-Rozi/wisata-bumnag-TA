@@ -1,0 +1,25 @@
+@startuml User Verification Success
+actor "Admin/Mahasiswa"  as User
+boundary "Login View" as LoginView
+control LoginController 
+entity Users as UserModel
+boundary "Dashboard View" as DashView
+
+autonumber
+autoactivate on
+skinparam SequenceMessageAlignment center
+
+activate User
+User->LoginView: input(email,password)
+LoginView->LoginController : input(email,password)
+deactivate User
+LoginController->UserModel :attemptLogin(email,password)
+return user
+LoginController -> LoginController: Check Level(user.Level)
+alt Level = "mahasiswa"
+LoginController-> DashView: DashboardMahasiswa()
+end
+alt Level = "administrator"
+LoginController-> DashView: DashboardAdmin()
+end
+@enduml
