@@ -1,0 +1,20 @@
+@startuml name Login
+mainframe sd Login
+actor Admin as Admin
+boundary "Login View" as LoginView
+control LoginController 
+entity Admin as AdminModel
+boundary "Menu Admin" as MenuAdmin
+
+autonumber
+autoactivate on
+skinparam SequenceMessageAlignment center
+
+Admin->LoginView: input(username,password)
+LoginView->LoginController: login Username
+LoginController->AdminModel: login(id,pass)
+AdminModel-->LoginView: id pass salah
+AdminModel->AdminModel: login(id,pass)
+AdminModel->MenuAdmin: view(admin)
+
+@enduml
